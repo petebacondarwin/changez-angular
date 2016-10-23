@@ -5,7 +5,7 @@
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
-    "prepublish": "tsc",
+    "prepublish": "tsc index.ts",
     "test": "mocha --compilers ts:ts-node/register -R spec 'index.spec.ts'"
   },
   "repository": {

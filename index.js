@@ -76,5 +76,5 @@ function extractCloses(field, closes) {
         return ' ';
     });
 }
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = new AngularBlueprint();
+exports.__esModule = true;
+exports["default"] = new AngularBlueprint();
