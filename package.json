@@ -1,0 +1,37 @@
+{
+  "name": "changez-angular",
+  "version": "1.0.0",
+  "description": "The angular blueprint for the changez utility",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "scripts": {
+    "prepublish": "tsc",
+    "test": "mocha --compilers ts:ts-node/register -R spec 'index.spec.ts'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/petebacondarwin/changez-angular.git"
+  },
+  "keywords": [
+    "changez"
+  ],
+  "author": "Pete Bacon Darwin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/petebacondarwin/changez-angular/issues"
+  },
+  "homepage": "https://github.com/petebacondarwin/changez-angular#readme",
+  "devDependencies": {
+    "@types/chai": "^3.4.34",
+    "@types/es6-shim": "^0.31.32",
+    "@types/node": "^6.0.45",
+    "chai": "^3.5.0",
+    "changez": "^1.0.7",
+    "mocha": "^3.1.2",
+    "ts-node": "^1.6.0",
+    "tslint": "^3.15.1",
+    "typescript": "^2.0.3",
+    "typings": "^1.4.0"
+  },
+  "dependencies": {}
+}
