@@ -1,23 +1,31 @@
 "use strict";
 var path_1 = require('path');
 var changez_1 = require('changez');
-var REVERT_MATCHER = /^(revert:|Revert )(.+)/;
+//                       111111111111111
+//                              2222222 3333
+var REVERT_MATCHER = /^(revert(:?\s*))(.+)/i;
 //                      1111111  2222222         3333
 var FORMAT_MATCHER = /([^(]+)\(([^)]+)\)\s*:\s*(.+)/;
 // 1=type; 2=scope; 3=title
-var BC_MARKER = /^BREAKING CHANGE/;
-//                      1111111111111111111111111111111111111111111111
-//                       22222222222222 4444444444444 666666666666666    8888888888888888888888888
-//                              33333       5555555           77777       9999999999999999 101010
-var CLOSES_MATCHER = /\s+((closes(s|d)?)|(fix(es|ed)?)|(resolve(s|d)?))\s+(([^\/]+\/[^\/]+)?(#\d+))\s+/;
+var BC_MARKER = /^BREAKING CHANGE(S?:?\s*)/i;
+//                         1111111111111111111111111111111111111111111111
+//                          2222222222222 4444444444444 666666666666666    88888888888888888888888888
+//                                33333       5555555           77777       999999999999999999 101010
+var CLOSES_MATCHER = /\s+((close(s|d)?)|(fix(es|ed)?)|(resolve(s|d)?))\s+(([^\/ ]+\/[^\/ ]+)?(#\d+))\s+/ig;
+// 8 = hash or url/hash to close
 var typeWhiteList = ['feat', 'fix', 'perf'];
 function setWhitelist(value) {
     typeWhiteList = value;
 }
 exports.setWhitelist = setWhitelist;
+var typeBlackList = ['chore', 'refactor', 'docs', 'style', 'test'];
+function setBlacklist(value) {
+    typeBlackList = value;
+}
+exports.setBlacklist = setBlacklist;
 var AngularBlueprint = (function () {
     function AngularBlueprint() {
-        this.name = 'AngularJS';
+        this.name = 'Angular';
     }
     AngularBlueprint.prototype.getTemplateFolder = function () {
         return path_1.resolve(__dirname, 'templates');
@@ -29,7 +37,7 @@ var AngularBlueprint = (function () {
         var commit = new changez_1.Commit(message);
         var _a = message.split('\n'), hash = _a[0], header = _a[1], bodyLines = _a.slice(2);
         commit.hash = hash;
-        header = header.replace(REVERT_MATCHER, function (_, revertMarker, rest) {
+        header = header.replace(REVERT_MATCHER, function (_, revertMarker, __, rest) {
             commit.isRevert = true;
             if (rest.indexOf('"') === 0 && rest.lastIndexOf('"') === rest.length - 1) {
                 rest = rest.substring(1, rest.length - 1);
@@ -47,7 +55,7 @@ var AngularBlueprint = (function () {
             bcLine += 1;
         }
         commit.body = bodyLines.slice(0, bcLine).join('\n');
-        commit.bcMessage = bodyLines.slice(bcLine + 1).join('\n');
+        commit.bcMessage = bodyLines.slice(bcLine).join('\n').replace(BC_MARKER, '');
         commit.closes = [];
         commit.body = extractCloses(commit.body, commit.closes);
         commit.bcMessage = extractCloses(commit.bcMessage, commit.closes);
@@ -62,7 +70,12 @@ var AngularBlueprint = (function () {
         return commit;
     };
     AngularBlueprint.prototype.filterCommit = function (commit) {
-        return typeWhiteList.indexOf(commit.type) !== -1;
+        if (typeBlackList.indexOf(commit.type) !== -1)
+            return false;
+        if (typeWhiteList.indexOf(commit.type) !== -1)
+            return true;
+        console.log(commit.type);
+        throw new Error("Commit " + commit.hash + " does not match a type in either the whitelist nor the blacklist");
     };
     AngularBlueprint.prototype.compareCommits = function (left, right) {
         return left.toString() === right.toString();

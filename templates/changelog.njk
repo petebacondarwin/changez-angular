@@ -1,22 +1,38 @@
-{% macro commits(typeTitle, scopes) %}
+{% macro showCloses(closes) %}{% for close in closes %} {{ close }}{% endfor %}{% endmacro -%}
+{% macro showCommit(commit) %}{{ commit.title }} ({{commit.hash}}{{ showCloses(commit.closes) }}){% endmacro -%}
+{% macro showCommits(typeTitle, scopes) %}
 {% if scopes -%}
 ## {{ typeTitle }}
 {%- for scope, commits in scopes %}
 {% if commits.length == 1 -%}
-- **{{ scope }}:** {{ commits[0].title }} ({{commits[0].hash}})
+- **{{ scope }}:** {{ showCommit(commits[0]) }}
 {%- else -%}
 - **{{ scope }}:**
 {%- for commit in commits %}
-  - {{ commit.title }} ({{commit.hash}})
+  - {{ showCommit(commit) }}
 {%- endfor -%}
 {% endif -%}
 {% endfor -%}
 {% endif %}
 {% endmacro -%}
 
+{% macro showBreakingChanges(commits) %}
+{% if commits.length %}
+## Breaking Changes
+{% for commit in commits %}
+- **{{ commit.type }}({{ commit.scope }}): {{ commit.title }} ({{ commit.hash }})**:
+
+{{ commit.bcMessage }}
+{% endfor %}
+{% endif %}
+{% endmacro -%}
+
 <a name="{{ version }}"></a>
 # {{ version }} {{ codename }} ({{ date.toDateString() }})
 
-{{ commits('Bug Fixes', types['fix']) }}
-{{ commits('New Features', types['feat']) }}
-{{ commits('Performance Improvements', types['perf']) }}
+{{ showCommits('Bug Fixes', types['fix']) }}
+{{ showCommits('New Features', types['feat']) }}
+{{ showCommits('Performance Improvements', types['perf']) }}
+
+xx
+{{ showBreakingChanges(breakingChanges) }}
