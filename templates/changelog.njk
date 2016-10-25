@@ -1,5 +1,6 @@
+{% macro commitLink(hash) %}[{{ hash | truncate(6, true, '') }}](https://github.com/angular/angular.js/commit/{{hash}}){% endmacro -%}
 {% macro showCloses(closes) %}{% for close in closes %} {{ close }}{% endfor %}{% endmacro -%}
-{% macro showCommit(commit) %}{{ commit.title }} ({{commit.hash}}{{ showCloses(commit.closes) }}){% endmacro -%}
+{% macro showCommit(commit) %}{{ commit.title }} ({{ commitLink(commit.hash) }}{{ showCloses(commit.closes) }}){% endmacro -%}
 {% macro showCommits(typeTitle, scopes) %}
 {% if scopes -%}
 ## {{ typeTitle }}
@@ -20,7 +21,7 @@
 {% if commits.length %}
 ## Breaking Changes
 {% for commit in commits %}
-- **{{ commit.type }}({{ commit.scope }}): {{ commit.title }} ({{ commit.hash }})**:
+- **{{ commit.type }}({{ commit.scope }}): {{ commit.title }} ({{ commitLink(commit.hash) }})**:
 
 {{ commit.bcMessage }}
 {% endfor %}
@@ -34,5 +35,4 @@
 {{ showCommits('New Features', types['feat']) }}
 {{ showCommits('Performance Improvements', types['perf']) }}
 
-xx
 {{ showBreakingChanges(breakingChanges) }}
