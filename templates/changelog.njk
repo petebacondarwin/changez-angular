@@ -1,5 +1,6 @@
 {% macro commitLink(hash) %}[{{ hash | truncate(6, true, '') }}](https://github.com/angular/angular.js/commit/{{hash}}){% endmacro -%}
-{% macro showCloses(closes) %}{% for close in closes %} {{ close }}{% endfor %}{% endmacro -%}
+{% macro issueLink(issue) %}[{{ [issue.org, issue.repo].join('/') }}#{{ issue.id }}](https://github.com/{{ issue.org || org }}/{{ issue.repo || repo }}/issues/{{ issue.id }}){% endmacro %}
+{% macro showCloses(closes) %}{% for close in closes %} {{ issueLink(close) }}{% endfor %}{% endmacro -%}
 {% macro showCommit(commit) %}{{ commit.title }} ({{ commitLink(commit.hash) }}{{ showCloses(commit.closes) }}){% endmacro -%}
 {% macro showCommits(typeTitle, scopes) %}
 {% if scopes -%}

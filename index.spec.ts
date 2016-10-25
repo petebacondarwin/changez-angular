@@ -47,7 +47,7 @@ describe('AngularBlueprint', () => {
       const commit = blueprint.parseMessage('ABC123\nfix(abc): some title\nSome closes #44 body\nBREAKING CHANGE:\nSome breaking closes abc/def#23 change');
       expect(commit.body).to.equal('Some body');
       expect(commit.bcMessage).to.equal('Some breaking change');
-      expect(commit.closes).to.eql(['#44', 'abc/def#23']);
+      expect(commit.closes).to.eql([{ org: undefined, repo: undefined, id: '44' }, { org: 'abc', repo: 'def', id: '23' }]);
     });
   });
 });

@@ -1,5 +1,6 @@
 import {resolve} from 'path';
-import {Commit, IBlueprint} from 'changez';
+import {Commit, Issue, IBlueprint} from 'changez';
+import {} from 'changez/dist/lib/commit';
 
 //                       111111111111111
 //                              2222222 3333
@@ -12,10 +13,12 @@ const FORMAT_MATCHER = /([^(]+)\(([^)]+)\)\s*:\s*(.+)/;
 const BC_MARKER = /^BREAKING CHANGE(S?:?\s*)/i;
 
 //                         1111111111111111111111111111111111111111111111
-//                          2222222222222 4444444444444 666666666666666    88888888888888888888888888
-//                                33333       5555555           77777       999999999999999999 101010
-const CLOSES_MATCHER = /\s+((close(s|d)?)|(fix(es|ed)?)|(resolve(s|d)?))\s+(([^\/ ]+\/[^\/ ]+)?(#\d+))\s+/ig;
-// 8 = hash or url/hash to close
+//                          2222222222222 4444444444444 666666666666666    8888888888888888888888888888888
+//                                33333       5555555           77777       999999999999999999999
+//                                                                           10101010   111111111  121212
+const CLOSES_MATCHER = /\s+((close(s|d)?)|(fix(es|ed)?)|(resolve(s|d)?))\s+((([^\/ ]+)\/([^\/ ]+))?#(\d+))\s+/ig;
+// 9 = org; 10 = repo; 11=issue
+
 
 let typeWhiteList = ['feat', 'fix', 'perf'];
 export function setWhitelist(value: string[]) {
@@ -93,9 +96,13 @@ export class AngularBlueprint implements IBlueprint {
 }
 
 
-function extractCloses(field: string, closes: string[]): string {
+function extractCloses(field: string, closes: Issue[]): string {
   return field.replace(CLOSES_MATCHER, function() {
-    closes.push(arguments[8]);
+    closes.push({
+      org: arguments[10],
+      repo: arguments[11],
+      id: arguments[12]
+    });
     return ' ';
   });
 }
