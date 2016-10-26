@@ -30,7 +30,7 @@
 {% endmacro -%}
 
 <a name="{{ version }}"></a>
-# {{ version }} {{ codename }} ({{ date.toDateString() }})
+# {{ version }} {{ codename }} ({{ date | date }})
 
 {{ showCommits('Bug Fixes', types['fix']) }}
 {{ showCommits('New Features', types['feat']) }}

@@ -1,6 +1,8 @@
 import {resolve} from 'path';
 import {Commit, Issue, IBlueprint} from 'changez';
-import {} from 'changez/dist/lib/commit';
+import {Environment} from 'nunjucks';
+
+import * as nunjucksDate from 'nunjucks-date';
 
 //                       111111111111111
 //                              2222222 3333
@@ -92,6 +94,11 @@ export class AngularBlueprint implements IBlueprint {
 
   compareCommits(left: Commit, right: Commit) {
     return left.toString() === right.toString();
+  }
+
+  configureRenderer(env: Environment) {
+    nunjucksDate.install(env);
+    nunjucksDate.setDefaultFormat('YYYY-MM-DD');
   }
 }
 

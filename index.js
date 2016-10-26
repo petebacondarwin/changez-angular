@@ -1,6 +1,7 @@
 "use strict";
 var path_1 = require('path');
 var changez_1 = require('changez');
+var nunjucksDate = require('nunjucks-date');
 //                       111111111111111
 //                              2222222 3333
 var REVERT_MATCHER = /^(revert(:?\s*))(.+)/i;
@@ -80,6 +81,10 @@ var AngularBlueprint = (function () {
     };
     AngularBlueprint.prototype.compareCommits = function (left, right) {
         return left.toString() === right.toString();
+    };
+    AngularBlueprint.prototype.configureRenderer = function (env) {
+        nunjucksDate.install(env);
+        nunjucksDate.setDefaultFormat('YYYY-MM-DD');
     };
     return AngularBlueprint;
 }());
