@@ -1,11 +1,12 @@
 {
   "name": "changez-angular",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "The angular blueprint for the changez utility",
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
-    "test": "tsc && mocha -R spec 'index.spec.js'"
+    "test": "tsc && mocha -R spec 'index.spec.js'",
+    "build": "tsc"
   },
   "repository": {
     "type": "git",
