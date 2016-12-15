@@ -49,5 +49,12 @@ describe('AngularBlueprint', () => {
       expect(commit.bcMessage).to.equal('Some breaking change');
       expect(commit.closes).to.eql([{ org: undefined, repo: undefined, id: '44' }, { org: 'abc', repo: 'def', id: '23' }]);
     });
+
+    it('should extract the closes markers at the start of the body text', () => {
+      const commit = blueprint.parseMessage('ABC123\nfix(abc): some title\nCloses #44');
+      expect(commit.body).to.equal('');
+      expect(commit.bcMessage).to.equal('');
+      expect(commit.closes).to.eql([{ org: undefined, repo: undefined, id: '44' }]);
+    });
   });
 });

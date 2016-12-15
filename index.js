@@ -97,7 +97,7 @@ function extractCloses(field, closes) {
             id: arguments[12]
         });
         return ' ';
-    });
+    }).trim();
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = new AngularBlueprint();
