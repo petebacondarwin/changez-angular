@@ -21,10 +21,13 @@
 {% macro showBreakingChanges(commits) %}
 {% if commits.length %}
 ## Breaking Changes
-{% for commit in commits %}
-- **{{ commit.type }}({{ commit.scope }}): {{ commit.title }} ({{ commitLink(commit.hash) }})**:
+{% for scope, commits in commits | groupby('scope') %}
+### **{{ scope }}** due to:
+{%- for commit in commits %}
+  - **{{ commitLink(commit.hash) }}**: {{ commit.title }}
 
 {{ commit.bcMessage }}
+{% endfor -%}
 {% endfor %}
 {% endif %}
 {% endmacro -%}
