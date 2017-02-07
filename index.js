@@ -9,12 +9,12 @@ var REVERT_MATCHER = /^(revert(:?\s*))(.+)/i;
 var FORMAT_MATCHER = /([^(]+)\(([^)]+)\)\s*:\s*(.+)/;
 // 1=type; 2=scope; 3=title
 var BC_MARKER = /^BREAKING CHANGE(S?:?\s*)/i;
-//                             111111111111111111111111111111111111111111111
-//                              2222222222222 4444444444444 666666666666666    8888888888888888888888888888888
-//                                    33333       5555555           77777       9999999999999999999999
-//                                                                               10101010   111111111   1212
-var CLOSES_MATCHER = /(?:^|\s+)((close(s|d)?)|(fix(es|ed)?)|(resolve(s|d)?))\s+((([^\/ ]+)\/([^\/ ]+))?#(\d+))(?:\s+|$)/ig;
-// 9 = org; 10 = repo; 11=issue
+//                               111111111111111111111111111111111111111111111
+//                                2222222222222 4444444444444 666666666666666    8888888888888888888888888888888
+//                                      33333       5555555           77777       9999999999999999999999
+//                                                                                 10101010   111111111   1212
+var CLOSES_MATCHER = /(?:^|\s+)((close(s|d)?)|(fix(es|ed)?)|(resolve(s|d)?))\s+((([^\/ ]+)\/([^\/ ]+))?#(\d+))(?=\s|$)/ig;
+// 10 = org; 11 = repo; 12=issue
 var typeWhiteList = ['feat', 'fix', 'perf'];
 function setWhitelist(value) {
     typeWhiteList = value;
@@ -96,7 +96,7 @@ function extractCloses(field, closes) {
             repo: arguments[11],
             id: arguments[12]
         });
-        return ' ';
+        return '';
     }).trim();
 }
 Object.defineProperty(exports, "__esModule", { value: true });

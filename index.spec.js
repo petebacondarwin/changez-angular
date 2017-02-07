@@ -48,5 +48,15 @@ describe('AngularBlueprint', function () {
             chai_1.expect(commit.bcMessage).to.equal('');
             chai_1.expect(commit.closes).to.eql([{ org: undefined, repo: undefined, id: '44' }]);
         });
+        it('should cope with closes markers back to back', function () {
+            var commit = blueprint.parseMessage('ABC123\nfix(abc): some title\nCloses #44\nCloses #54\n\nFixes #12');
+            chai_1.expect(commit.body).to.equal('');
+            chai_1.expect(commit.bcMessage).to.equal('');
+            chai_1.expect(commit.closes).to.eql([
+                { org: undefined, repo: undefined, id: '44' },
+                { org: undefined, repo: undefined, id: '54' },
+                { org: undefined, repo: undefined, id: '12' }
+            ]);
+        });
     });
 });

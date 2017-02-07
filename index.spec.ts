@@ -56,5 +56,16 @@ describe('AngularBlueprint', () => {
       expect(commit.bcMessage).to.equal('');
       expect(commit.closes).to.eql([{ org: undefined, repo: undefined, id: '44' }]);
     });
+
+    it('should cope with closes markers back to back', () => {
+      const commit = blueprint.parseMessage('ABC123\nfix(abc): some title\nCloses #44\nCloses #54\n\nFixes #12');
+      expect(commit.body).to.equal('');
+      expect(commit.bcMessage).to.equal('');
+      expect(commit.closes).to.eql([
+        { org: undefined, repo: undefined, id: '44' },
+        { org: undefined, repo: undefined, id: '54' },
+        { org: undefined, repo: undefined, id: '12' }
+      ]);
+    });
   });
 });
