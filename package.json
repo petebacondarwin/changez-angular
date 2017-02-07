@@ -1,6 +1,6 @@
 {
   "name": "changez-angular",
-  "version": "2.1.2",
+  "version": "2.1.3",
   "description": "The angular blueprint for the changez utility",
   "main": "index.js",
   "types": "index.d.ts",
