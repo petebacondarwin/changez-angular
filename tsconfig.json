@@ -1,12 +1,9 @@
 {
     "compilerOptions": {
         "module": "commonjs",
-        "target": "es5",
-        "typeRoots": [
-          "node_modules/@types"
-        ]
-    },
-    "exclude": [
-        "node_modules"
-    ]
+        "target": "es6",
+        "outDir": "dist",
+        "declaration": true,
+        "sourceMap": true
+    }
 }
