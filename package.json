@@ -34,7 +34,7 @@
     "typescript": "^4.2.3"
   },
   "dependencies": {
-    "changez": "^3.0.0",
+    "changez": "^3.0.1",
     "nunjucks-date": "^1.5.0"
   }
 }
