@@ -37,7 +37,7 @@ export class AngularBlueprint implements IBlueprint {
   name = 'Angular';
 
   getTemplateFolder(): string {
-    return resolve(__dirname, 'templates');
+    return resolve(__dirname, '../templates');
   }
 
   getTemplateName(): string {
